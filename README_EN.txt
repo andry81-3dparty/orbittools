@@ -44,7 +44,7 @@ https://svn.code.sf.net/p/tacklelib/cmake/trunk
 
 Third-party QD library hosts here:
 
-https://svn.code.sf.net/p/orbittools/qd/trunk
+https://svn.code.sf.net/p/orbittools/qd_/trunk
 
 -------------------------------------------------------------------------------
 2. LICENSE
