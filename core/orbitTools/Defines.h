@@ -2,24 +2,36 @@
 #ifndef ORBIT_TOOLS_DEFINES_H_
 #define ORBIT_TOOLS_DEFINES_H_
 
+#include <qd/globals.h>
+#include <cstdint>
+
 #ifndef QD_INTEGRATION_ENABLED
 #ifdef ORBIT_TOOLS_ENABLE_QD_QD_INTEGRATION
-#include <qd/qd_real.h>
-
-static inline qd_real from_double(double d) { return d; }
+namespace qd
+{
+    static inline qd_real to_real(double d) { return d; }
+}
 
 #define QD_INTEGRATION_ENABLED 1
 
 #elif defined(ORBIT_TOOLS_ENABLE_QD_DD_INTEGRATION)
-#include <qd/dd_real.h>
-
-static inline dd_real from_double(double d) { return d; }
+namespace qd
+{
+    static inline dd_real to_real(double d) { return d; }
+}
 
 #define QD_INTEGRATION_ENABLED 1
 
 #else
+
+static inline int to_double(int i) { return i; }
+static inline int64_t to_double(int64_t i) { return i; }
 static inline double to_double(double d) { return d; }
-static inline double from_double(double d) { return 0; }
+
+namespace qd
+{
+    static inline double to_real(double d) { return d; }
+}
 
 #define QD_INTEGRATION_ENABLED 0
 
