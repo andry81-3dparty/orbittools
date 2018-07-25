@@ -1,3 +1,6 @@
+2018.07.25:
+* fixed: switch back from dd_real to double
+
 2018.07.16:
 * new: changelog
 * new: initial patched sources fork
