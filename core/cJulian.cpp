@@ -37,6 +37,8 @@ namespace OrbitTools
 //////////////////////////////////////////////////////////////////////////////
 // Create a Julian date object from a time_t object. time_t objects store the
 // number of seconds since midnight UTC January 1, 1970.
+#if QD_INTEGRATION_ENABLED
+
 cJulian::cJulian(double utc_time_sec)
 {
    struct tm stm;
@@ -57,6 +59,29 @@ cJulian::cJulian(double utc_time_sec)
 
    Initialize(year, day); // including second remainder
 }
+
+#else
+
+cJulian::cJulian(time_t time)
+{
+   struct tm stm;
+
+#ifdef WIN32
+   gmtime_s(&stm, &time);
+#else
+   gmtime_r(&time, &stm);
+#endif
+
+   int    year = stm.tm_year + 1900;
+   double day  = stm.tm_yday + 1 +
+                 (stm.tm_hour + 
+                  ((stm.tm_min + 
+                   (stm.tm_sec / 60.0)) / 60.0)) / 24.0;
+
+   Initialize(year, day);
+}
+
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 // Create a Julian date object from a year and day of year.

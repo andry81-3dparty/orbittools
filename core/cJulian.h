@@ -28,7 +28,11 @@ class cJulian
 {
 public:
    cJulian() { Initialize(2000, 1); }
+#if QD_INTEGRATION_ENABLED
    explicit cJulian(double utc_time_sec);   // Create from seconds with remainder
+#else
+   explicit cJulian(time_t t);              // Create from time_t
+#endif
    explicit cJulian(int year, double day);  // Create from year, day of year
    explicit cJulian(int year,               // i.e., 2004
                     int mon,                // 1..12
