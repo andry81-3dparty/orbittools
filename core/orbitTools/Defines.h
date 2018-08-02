@@ -5,10 +5,13 @@
 #include <qd/globals.h>
 #include <cstdint>
 
+
 #ifndef QD_INTEGRATION_ENABLED
 #ifdef ORBIT_TOOLS_ENABLE_QD_QD_INTEGRATION
 namespace qd
 {
+    static inline qd_real to_real(int i) { return i; }
+    static inline qd_real to_real(int64_t i) { return i; }
     static inline qd_real to_real(double d) { return d; }
 }
 
@@ -17,6 +20,8 @@ namespace qd
 #elif defined(ORBIT_TOOLS_ENABLE_QD_DD_INTEGRATION)
 namespace qd
 {
+    static inline dd_real to_real(int i) { return i; }
+    static inline dd_real to_real(int64_t i) { return i; }
     static inline dd_real to_real(double d) { return d; }
 }
 
@@ -30,6 +35,8 @@ static inline double to_double(double d) { return d; }
 
 namespace qd
 {
+    static inline double to_real(int i) { return i; }
+    static inline double to_real(int64_t i) { return i; }
     static inline double to_real(double d) { return d; }
 }
 
