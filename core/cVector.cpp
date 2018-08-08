@@ -5,6 +5,7 @@
 //
 #include "stdafx.h"
 
+#include "globals.h"
 #include "cVector.h"
 
 #include "orbitTools/SysDefine.h"
@@ -41,7 +42,12 @@ void cVector::Sub(const cVector& vec)
 //*****************************************************************************
 double cVector::Angle(const cVector& vec) const
 {
-  return acos(Dot(vec) / (Magnitude() * vec.Magnitude()));
+  double angle_cos = Dot(vec) / (Magnitude() * vec.Magnitude());
+
+  // fix to avoid the trigonometric functions return NAN
+  angle_cos = fix_float_trigonometric_range(angle_cos);
+
+  return acos(angle_cos);
 }
 
 //*****************************************************************************

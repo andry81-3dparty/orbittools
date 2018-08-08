@@ -9,7 +9,8 @@
 
 #include "orbitTools/SysUndefine.h"
 
-#include "math.h"
+#include <math.h>
+#include <float.h>
 
 #include "orbitTools/SysDefine.h"
 
@@ -62,6 +63,32 @@ double AcTan (const double sinx, const double cosx);
 
 double rad2deg(const double);
 double deg2rad(const double);
+
+// TO FIX triginometric range in acos/asin functions !!!
+
+extern inline double truncate_float_to_minmax(double value, double min_value, double max_value)
+{
+    if (max_value < value) {
+        return max_value;
+    }
+
+    if (value < min_value) {
+        return min_value;
+    }
+
+    return value;
+}
+
+extern inline double fix_float_trigonometric_range(double value)
+{
+    // avoid fix in special case
+    if (!isnan(value) && value != DBL_MAX && value != -DBL_MAX) {
+        return truncate_float_to_minmax(value, -1.0, +1.0);
+    }
+
+    return value;
+}
+
 }
 }
 
