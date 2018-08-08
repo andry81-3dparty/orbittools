@@ -113,7 +113,13 @@ cTopo cSite::GetLookAngle(const cEciTime &eci) const
       az += 2.0*PI;
    }
 
-   double el   = asin(top_z / vecRange.m_w);
+   double el_sin = top_z / vecRange.m_w;
+
+   // fix to avoid the trigonometric functions return NAN
+   el_sin = fix_float_trigonometric_range(el_sin);
+
+   double el = asin(el_sin);
+
    double rate = (vecRange.m_x * vecRgRate.m_x + 
                   vecRange.m_y * vecRgRate.m_y + 
                   vecRange.m_z * vecRgRate.m_z) / vecRange.m_w;
