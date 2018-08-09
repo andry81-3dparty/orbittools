@@ -26,6 +26,10 @@
 #include "globals.h"
 #include "cJulian.h"
 
+#include "orbitTools/SysUndefine.h"
+
+#include <stdint.h>
+
 #include "orbitTools/SysDefine.h"
 
 
@@ -55,7 +59,7 @@ cJulian::cJulian(double utc_time_sec)
    double day  = stm.tm_yday + 1 +
                  (stm.tm_hour + 
                   ((stm.tm_min + 
-                   ((stm.tm_sec + (utc_time_sec - time)) / 60.0)) / 60.0)) / 24.0;
+                   ((stm.tm_sec + (utc_time_sec - int64_t(time))) / 60.0)) / 60.0)) / 24.0;
 
    Initialize(year, day); // including second remainder
 }

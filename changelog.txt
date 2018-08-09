@@ -1,3 +1,6 @@
+2018.08.09:
+* fixed: linux build
+
 2018.08.08:
 * fixed: trigonometric range fix before call to acos/asin functions
 
