@@ -1,3 +1,6 @@
+2018.08.14:
+* refactor: cmake: moved all cmake lists to use basic initialization routine
+
 2018.08.09:
 * fixed: linux build
 

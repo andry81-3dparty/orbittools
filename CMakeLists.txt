@@ -16,6 +16,8 @@ file(GLOB_RECURSE all_sources ${CMAKE_CURRENT_LIST_DIR}/*.cpp)
 
 add_library(${PROJECT_LIB_NAME} STATIC ${all_headers};${all_sources})
 
+initialize_library_target_defaults(${PROJECT_LIB_NAME} "32bit")
+
 source_groups_from_dir_list("Header Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.h*)
 source_groups_from_dir_list("Source Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.cpp)
 
@@ -23,25 +25,6 @@ target_include_directories(${PROJECT_LIB_NAME}
   PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/core
 )
-
-if(GCC)
-  add_target_compile_definitions(${PROJECT_LIB_NAME} DEBUG
-    PUBLIC
-      _DEBUG
-  )
-
-  add_target_compile_properties(${PROJECT_LIB_NAME} DEBUG
-    -g
-  )
-
-  add_target_compile_properties(${PROJECT_LIB_NAME} *
-    -m32        # compile 32 bit target on 64 bit host
-  )
-
-  add_target_link_properties(${PROJECT_LIB_NAME} *
-    -m32        # link 32 bit target on 64 bit host
-  )
-endif()
 
 # integration with QD
 
