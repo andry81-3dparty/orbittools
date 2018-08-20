@@ -1,3 +1,6 @@
+2018.08.19:
+* fixed: serious bug in implementation which leads to different propagation results depending on different sequence calls to `cOrbit::GetPosition` function (workarounded through the temporary object usage).
+
 2018.08.14:
 * refactor: cmake: moved all cmake lists to use basic initialization routine
 

@@ -32,6 +32,8 @@ public:
 
    virtual cNoradBase* Clone(const cOrbit& orbit) { return new cNoradSGP4(orbit); }
 
+   virtual NoradBaseType type() { return NoradBaseType_SGP4; }
+
 protected:
    double m_c5; 
    double m_omgcof;

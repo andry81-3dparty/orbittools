@@ -28,6 +28,12 @@ class cOrbit;
 
 //////////////////////////////////////////////////////////////////////////////
 
+enum NoradBaseType
+{
+    NoradBaseType_SGP4 = 1,
+    NoradBaseType_SDP4,
+};
+
 class cNoradBase
 {
 public:
@@ -37,6 +43,8 @@ public:
    virtual cEciTime GetPosition(double tsince) = 0;
 
    virtual cNoradBase* Clone(const cOrbit&) = 0;
+
+   virtual NoradBaseType type() = 0;
 
 protected:
    cNoradBase& operator=(const cNoradBase&);

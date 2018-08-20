@@ -206,7 +206,34 @@ cEciTime cOrbit::GetPosition(double mpe) const
 // returned in the ECI object are kilometer-based.
 cEciTime cOrbit::PositionEci(double mpe) const
 {
-   cEciTime eci = m_pNoradModel->GetPosition(mpe);
+   // CAUTION:
+   //  Serious bug, each call to GetPosition changes internel state, which leads to
+   //  different propagation results for different sequence of calls to cOrbit::GetPosition!!!
+   //
+   // WORKAROUND:
+   //  Copy the model before each call to `GetPosition()`
+   //
+   // OPTIMIZATION:
+   //   Do use `type()` call to bypass unnesessary memory reallocation.
+   //
+
+   cEciTime eci;
+
+   switch (m_pNoradModel->type()) {
+      case NoradBaseType_SDP4: {
+        cNoradSDP4 model{ *static_cast<cNoradSDP4 *>(m_pNoradModel) };
+        eci = model.GetPosition(mpe);
+      } break;
+      case NoradBaseType_SGP4: {
+        cNoradSGP4 model{ *static_cast<cNoradSGP4 *>(m_pNoradModel) };
+        eci = model.GetPosition(mpe);
+      } break;
+      default:
+        // ordinal clone here
+        cNoradBase * model_ptr = m_pNoradModel->Clone(*this);
+        eci = model_ptr->GetPosition(mpe);
+        delete model_ptr;
+   }
 
    // Convert ECI vector units from AU to kilometers
    double radiusAe = XKMPER_WGS72 / AE;
