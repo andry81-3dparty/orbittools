@@ -33,6 +33,8 @@ public:
 
    virtual cNoradBase* Clone(const cOrbit& orbit) { return new cNoradSDP4(orbit); }
 
+   virtual NoradBaseType type() { return NoradBaseType_SDP4; }
+
 protected:
    bool DeepSecular(double *xmdf,  double *omgadf,double *xnode, double *emm, 
                     double *xincc, double *xnn,   double tsince);

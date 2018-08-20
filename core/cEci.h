@@ -27,6 +27,7 @@ class cGeoTime;
 class cEci
 {
 public:
+   cEci() {}
    cEci(const cVector &pos, const cVector &vel);
    cEci(const cGeo &geo, cJulian date);
   
@@ -49,6 +50,7 @@ protected:
 class cEciTime : public cEci
 {
 public:
+   cEciTime() {}
    cEciTime(const cEci &eci, cJulian date);
    cEciTime(const cVector &pos, const cVector &vel, cJulian date);
    cEciTime(const cGeo &geo, cJulian date);
