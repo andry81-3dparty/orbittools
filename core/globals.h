@@ -86,7 +86,7 @@ extern inline double truncate_float_to_minmax(double value, double min_value, do
 extern inline double fix_float_trigonometric_range(double value)
 {
     // avoid fix in special case
-    if (!isnan(value) && value != double_max && value != -double_max) {
+    if (isnormal(value) && value != double_max && value != -double_max) {
         return truncate_float_to_minmax(value, -1.0, +1.0);
     }
 
