@@ -1,3 +1,6 @@
+2018.09.18:
+* fixed: minor fix
+
 2018.08.19:
 * fixed: serious bug in implementation which leads to different propagation results depending on different sequence calls to `cOrbit::GetPosition` function (workarounded through the temporary object usage).
 
