@@ -1,4 +1,5 @@
 2018.09.20:
+* fixed: compilation errors around standard math functions when QD integration has enabled
 * refactor: partially refactored to be used as a C++ library by adding namespaces, std types usage and std function calls.
 
 2018.09.18:
