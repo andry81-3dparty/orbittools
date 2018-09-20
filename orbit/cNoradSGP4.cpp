@@ -32,10 +32,10 @@ cNoradSGP4::cNoradSGP4(const cOrbit &orbit) :
 
    m_c5     = 2.0 * m_coef1 * m_Orbit.SemiMajor() * m_betao2 * 
               (1.0 + 2.75 * (etasq + m_eeta) + m_eeta * etasq);
-   m_omgcof = m_Orbit.BStar() * m_c3 * cos(m_Orbit.ArgPerigee());
+   m_omgcof = m_Orbit.BStar() * m_c3 * std::cos(m_Orbit.ArgPerigee());
    m_xmcof  = -(2.0 / 3.0) * m_coef * m_Orbit.BStar() * AE / m_eeta;
-   m_delmo  = pow(1.0 + m_eta * cos(m_Orbit.MeanAnomaly()), (int)3.0);
-   m_sinmo  = sin(m_Orbit.MeanAnomaly());
+   m_delmo  = std::pow(1.0 + m_eta * std::cos(m_Orbit.MeanAnomaly()), (int)3.0);
+   m_sinmo  = std::sin(m_Orbit.MeanAnomaly());
 }
 
 cNoradSGP4::~cNoradSGP4(void)
@@ -103,7 +103,7 @@ cEciTime cNoradSGP4::GetPosition(double tsince)
    if (!isimp)
    {
       double delomg = m_omgcof * tsince;
-      double delm = m_xmcof * (pow(1.0 + m_eta * cos(xmdf), (int)3.0) - m_delmo);
+      double delm = m_xmcof * (std::pow(1.0 + m_eta * std::cos(xmdf), (int)3.0) - m_delmo);
       double temp = delomg + delm;
 
       xmp   = xmdf   + temp;
@@ -113,14 +113,14 @@ cEciTime cNoradSGP4::GetPosition(double tsince)
       double tfour = tsince * tcube;
 
       tempa = tempa - d2 * tsq - d3 * tcube - d4 * tfour;
-      tempe = tempe + m_Orbit.BStar() * m_c5 * (sin(xmp) - m_sinmo);
+      tempe = tempe + m_Orbit.BStar() * m_c5 * (std::sin(xmp) - m_sinmo);
       templ = templ + t3cof * tcube + tfour * (t4cof + tsince * t5cof);
    }
 
    double a  = m_Orbit.SemiMajor() * orbitTools::sqr(tempa);
    double e  = m_Orbit.Eccentricity() - tempe;
    double xl = xmp + omega + xnode + m_Orbit.MeanMotion() * templ;
-   double xn = XKE / pow(a, 1.5);
+   double xn = XKE / std::pow(a, 1.5);
 
    return FinalPosition(m_Orbit.Inclination(), omgadf, e, a, xl, xnode, xn, tsince);
 }

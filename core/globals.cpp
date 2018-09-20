@@ -29,7 +29,7 @@ double sqr(const double x)
 //////////////////////////////////////////////////////////////////////////////
 double Fmod2p(const double arg)
 {
-   double modu = fmod(arg, TWOPI);
+   double modu = std::fmod(arg, TWOPI);
 
    if (modu < 0.0)
    {
@@ -51,7 +51,7 @@ double AcTan(const double sinx, const double cosx)
    }
    else
    {
-      return (cosx > 0.0) ? (atan(sinx / cosx)) : (PI + atan(sinx / cosx));
+      return (cosx > 0.0) ? (std::atan(sinx / cosx)) : (PI + std::atan(sinx / cosx));
    }
 }
 

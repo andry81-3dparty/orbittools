@@ -1,3 +1,6 @@
+2018.09.20:
+* refactor: partially refactored to be used as a C++ library by adding namespaces, std types usage and std function calls.
+
 2018.09.18:
 * fixed: minor fix
 

@@ -201,13 +201,13 @@ void cJulian::GetComponent(int    *pYear,
 //       Nov/Dec 1995
 double cJulian::ToGmst() const
 {
-   const double UT = fmod(m_Date + 0.5, 1.0);
+   const double UT = std::fmod(m_Date + 0.5, 1.0);
    const double TU = (FromJan1_12h_2000() - UT) / 36525.0;
 
    double GMST = 24110.54841 + TU * 
                  (8640184.812866 + TU * (0.093104 - TU * 6.2e-06));
 
-   GMST = fmod(GMST + SEC_PER_DAY * OMEGA_E * UT, SEC_PER_DAY);
+   GMST = std::fmod(GMST + SEC_PER_DAY * OMEGA_E * UT, SEC_PER_DAY);
    
    if (GMST < 0.0)
    {
@@ -225,7 +225,7 @@ double cJulian::ToGmst() const
 // Vernal Equinox to the given longitude.
 double cJulian::ToLmst(double lon) const
 {
-   return fmod(ToGmst() + lon, TWOPI);
+   return std::fmod(ToGmst() + lon, TWOPI);
 }
 
 //////////////////////////////////////////////////////////////////////////////

@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include <assert.h>
-#include <math.h>
+#include <cmath>
 #include <time.h>
 
 #include <string>

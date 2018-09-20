@@ -34,8 +34,8 @@ static const double thdt = 4.3752691e-03;
 cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
    cNoradBase(orbit)
 {
-   double sinarg = sin(m_Orbit.ArgPerigee());
-   double cosarg = cos(m_Orbit.ArgPerigee());
+   double sinarg = std::sin(m_Orbit.ArgPerigee());
+   double cosarg = std::cos(m_Orbit.ArgPerigee());
    double eqsq   = orbitTools::sqr(m_Orbit.Eccentricity());
    
    // Deep space initialization 
@@ -47,18 +47,18 @@ cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
    double aqnv   = 1.0 / m_Orbit.SemiMajor();
    double xmao   = m_Orbit.MeanAnomaly();
    double xpidot = m_omgdot + m_xnodot;
-   double sinq   = sin(m_Orbit.RAAN());
-   double cosq   = cos(m_Orbit.RAAN());
+   double sinq   = std::sin(m_Orbit.RAAN());
+   double cosq   = std::cos(m_Orbit.RAAN());
 
    // Initialize lunar solar terms 
    double day = jd.FromJan0_12h_1900();
    double dpi_xnodce = 4.5236020 - 9.2422029E-4 * day;
-   double dpi_stem   = sin(dpi_xnodce);
-   double dpi_ctem   = cos(dpi_xnodce);
+   double dpi_stem   = std::sin(dpi_xnodce);
+   double dpi_ctem   = std::cos(dpi_xnodce);
    double dpi_zcosil = 0.91375164 - 0.03568096 * dpi_ctem;
-   double dpi_zsinil = sqrt(1.0 - dpi_zcosil * dpi_zcosil);
+   double dpi_zsinil = std::sqrt(1.0 - dpi_zcosil * dpi_zcosil);
    double dpi_zsinhl = 0.089683511 *dpi_stem / dpi_zsinil;
-   double dpi_zcoshl = sqrt(1.0 - dpi_zsinhl * dpi_zsinhl);
+   double dpi_zcoshl = std::sqrt(1.0 - dpi_zsinhl * dpi_zsinhl);
    double dpi_c      = 4.7199672 + 0.22997150 * day;
    double dpi_gam    = 5.8351514 + 0.0019443680 * day;
    
@@ -69,8 +69,8 @@ cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
 
    dpi_zx = AcTan(dpi_zx,dpi_zy) + dpi_gam - dpi_xnodce;
 
-   double dpi_zcosgl = cos(dpi_zx);
-   double dpi_zsingl = sin(dpi_zx);
+   double dpi_zcosgl = std::cos(dpi_zx);
+   double dpi_zsingl = std::sin(dpi_zx);
 
    dp_zmos   = 6.2565837 + 0.017201977 * day;
    dp_zmos   = Fmod2p(dp_zmos);
@@ -395,12 +395,12 @@ bool cNoradSDP4::DeepCalcDotTerms(double *pxndot, double *pxnddt, double *pxldot
    // Dot terms calculated 
    if (gp_sync)
    {
-      *pxndot = dp_del1 * sin(dp_xli - fasx2) + 
-                dp_del2 * sin(2.0 * (dp_xli - fasx4)) +
-                dp_del3 * sin(3.0 * (dp_xli - fasx6));
-      *pxnddt = dp_del1 * cos(dp_xli - fasx2) +
-                2.0 * dp_del2 * cos(2.0 * (dp_xli - fasx4)) +
-                3.0 * dp_del3 * cos(3.0 * (dp_xli - fasx6));
+      *pxndot = dp_del1 * std::sin(dp_xli - fasx2) + 
+                dp_del2 * std::sin(2.0 * (dp_xli - fasx4)) +
+                dp_del3 * std::sin(3.0 * (dp_xli - fasx6));
+      *pxnddt = dp_del1 * std::cos(dp_xli - fasx2) +
+                2.0 * dp_del2 * std::cos(2.0 * (dp_xli - fasx4)) +
+                3.0 * dp_del3 * std::cos(3.0 * (dp_xli - fasx6));
    }
    else
    {
@@ -414,27 +414,27 @@ bool cNoradSDP4::DeepCalcDotTerms(double *pxndot, double *pxnddt, double *pxldot
       double x2omi = xomi + xomi;
       double x2li  = dp_xli + dp_xli;
 
-      *pxndot = dp_d2201 * sin(x2omi + dp_xli - g22) + 
-                dp_d2211 * sin(dp_xli - g22)         +
-                dp_d3210 * sin( xomi + dp_xli - g32) +
-                dp_d3222 * sin(-xomi + dp_xli - g32) +
-                dp_d4410 * sin(x2omi + x2li - g44)   +
-                dp_d4422 * sin(x2li - g44)           +
-                dp_d5220 * sin( xomi + dp_xli - g52) +
-                dp_d5232 * sin(-xomi + dp_xli - g52) +
-                dp_d5421 * sin( xomi + x2li - g54)   +
-                dp_d5433 * sin(-xomi + x2li - g54);
+      *pxndot = dp_d2201 * std::sin(x2omi + dp_xli - g22) + 
+                dp_d2211 * std::sin(dp_xli - g22)         +
+                dp_d3210 * std::sin( xomi + dp_xli - g32) +
+                dp_d3222 * std::sin(-xomi + dp_xli - g32) +
+                dp_d4410 * std::sin(x2omi + x2li - g44)   +
+                dp_d4422 * std::sin(x2li - g44)           +
+                dp_d5220 * std::sin( xomi + dp_xli - g52) +
+                dp_d5232 * std::sin(-xomi + dp_xli - g52) +
+                dp_d5421 * std::sin( xomi + x2li - g54)   +
+                dp_d5433 * std::sin(-xomi + x2li - g54);
 
-      *pxnddt = dp_d2201 * cos(x2omi + dp_xli - g22) +
-                dp_d2211 * cos(dp_xli - g22)         +
-                dp_d3210 * cos( xomi + dp_xli - g32) +
-                dp_d3222 * cos(-xomi + dp_xli - g32) +
-                dp_d5220 * cos( xomi + dp_xli - g52) +
-                dp_d5232 * cos(-xomi + dp_xli - g52) +
-                2.0 * (dp_d4410 * cos(x2omi + x2li - g44) +
-                dp_d4422 * cos(x2li - g44)         +
-                dp_d5421 * cos( xomi + x2li - g54) +
-                dp_d5433 * cos(-xomi + x2li - g54));
+      *pxnddt = dp_d2201 * std::cos(x2omi + dp_xli - g22) +
+                dp_d2211 * std::cos(dp_xli - g22)         +
+                dp_d3210 * std::cos( xomi + dp_xli - g32) +
+                dp_d3222 * std::cos(-xomi + dp_xli - g32) +
+                dp_d5220 * std::cos( xomi + dp_xli - g52) +
+                dp_d5232 * std::cos(-xomi + dp_xli - g52) +
+                2.0 * (dp_d4410 * std::cos(x2omi + x2li - g44) +
+                dp_d4422 * std::cos(x2li - g44)         +
+                dp_d5421 * std::cos( xomi + x2li - g54) +
+                dp_d5433 * std::cos(-xomi + x2li - g54));
    }
 
    *pxldot = dp_xni + dp_xfact;
@@ -500,7 +500,7 @@ bool cNoradSDP4::DeepSecular(double *xmdf, double *omgadf, double *xnode,
          }
          else
          {
-            if (fabs(tsince) < fabs(dp_atime))
+            if (std::fabs(tsince) < std::fabs(dp_atime))
             {
                delt = dp_stepp;
 
@@ -525,7 +525,7 @@ bool cNoradSDP4::DeepSecular(double *xmdf, double *omgadf, double *xnode,
          }
       }
 
-      while (fabs(tsince - dp_atime) >= dp_stepp)
+      while (std::fabs(tsince - dp_atime) >= dp_stepp)
       {
          DeepCalcIntegrator(&xndot, &xnddt, &xldot, delt);
       }
@@ -556,8 +556,8 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
                                double *xmam,   double tsince)
 {
    // Lunar-solar periodics 
-   double sinis = sin(*xincc);
-   double cosis = cos(*xincc);
+   double sinis = std::sin(*xincc);
+   double cosis = std::cos(*xincc);
 
    double sghs = 0.0;
    double shs  = 0.0;
@@ -574,10 +574,10 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
    
    // Apply lunar-solar terms
    double zm = dp_zmos + zns * tsince;
-   double zf = zm + 2.0 * zes * sin(zm);
-   double sinzf = sin(zf);
+   double zf = zm + 2.0 * zes * std::sin(zm);
+   double sinzf = std::sin(zf);
    double f2  = 0.5 * sinzf * sinzf - 0.25;
-   double f3  = -0.5 * sinzf * cos(zf);
+   double f3  = -0.5 * sinzf * std::cos(zf);
    double ses = dp_se2 * f2 + dp_se3 * f3;
    double sis = dp_si2 * f2 + dp_si3 * f3;
    double sls = dp_sl2 * f2 + dp_sl3 * f3 + dp_sl4 * sinzf;
@@ -585,10 +585,10 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
    sghs = dp_sgh2 * f2 + dp_sgh3 * f3 + dp_sgh4 * sinzf;
    shs  = dp_sh2  * f2 + dp_sh3  * f3;
    zm = dp_zmol + znl * tsince;
-   zf = zm + 2.0 * zel * sin(zm);
-   sinzf = sin(zf);
+   zf = zm + 2.0 * zel * std::sin(zm);
+   sinzf = std::sin(zf);
    f2 = 0.5 * sinzf * sinzf - 0.25;
-   f3 = -0.5 * sinzf * cos(zf);
+   f3 = -0.5 * sinzf * std::cos(zf);
 
    double sel  = dp_ee2 * f2 + dp_e3  * f3;
    double sil  = dp_xi2 * f2 + dp_xi3 * f3;
@@ -618,8 +618,8 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
    else
    {
       // Apply periodics with Lyddane modification 
-      double sinok = sin(*xnode);
-      double cosok = cos(*xnode);
+      double sinok = std::sin(*xnode);
+      double cosok = std::cos(*xnode);
       double alfdp = sinis * sinok;
       double betdp = sinis * cosok;
       double dalf  =  ph * cosok + pinc * cosis * sinok;
@@ -634,7 +634,7 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
       xls     = xls + dls;
       *xnode  = AcTan(alfdp, betdp);
       *xmam   = (*xmam) + pl;
-      *omgadf = xls - (*xmam) - cos(*xincc) * (*xnode);
+      *omgadf = xls - (*xmam) - std::cos(*xincc) * (*xnode);
    }
 
    return true;
@@ -664,7 +664,7 @@ cEciTime cNoradSDP4::GetPosition(double tsince)
 
    DeepSecular(&xmdf, &omgadf, &xnode, &em, &xinc, &xn, tsince);
 
-   double a    = pow(XKE / xn, 2.0 / 3.0) * orbitTools::sqr(tempa);
+   double a    = std::pow(XKE / xn, 2.0 / 3.0) * orbitTools::sqr(tempa);
    double e    = em - tempe;
    double xmam = xmdf + m_Orbit.MeanMotion() * templ;
 
@@ -672,7 +672,7 @@ cEciTime cNoradSDP4::GetPosition(double tsince)
 
    double xl = xmam + omgadf + xnode;
 
-   xn = XKE / pow(a, 1.5);
+   xn = XKE / std::pow(a, 1.5);
 
    return FinalPosition(xinc, omgadf, e, a, xl, xnode, xn, tsince);
 }

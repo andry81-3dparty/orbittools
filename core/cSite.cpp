@@ -81,17 +81,17 @@ cTopo cSite::GetLookAngle(const cEciTime &eci) const
    double x = eci.Position().m_x - eciSite.Position().m_x;
    double y = eci.Position().m_y - eciSite.Position().m_y;
    double z = eci.Position().m_z - eciSite.Position().m_z;
-   double w = sqrt(orbitTools::sqr(x) + orbitTools::sqr(y) + orbitTools::sqr(z));
+   double w = std::sqrt(orbitTools::sqr(x) + orbitTools::sqr(y) + orbitTools::sqr(z));
 
    cVector vecRange(x, y, z, w);
 
    // The site's Local Mean Sidereal Time at the time of interest.
    double theta = date.ToLmst(LongitudeRad());
 
-   double sin_lat   = sin(LatitudeRad());
-   double cos_lat   = cos(LatitudeRad());
-   double sin_theta = sin(theta);
-   double cos_theta = cos(theta);
+   double sin_lat   = std::sin(LatitudeRad());
+   double cos_lat   = std::cos(LatitudeRad());
+   double sin_theta = std::sin(theta);
+   double cos_theta = std::cos(theta);
 
    double top_s = sin_lat * cos_theta * vecRange.m_x + 
                   sin_lat * sin_theta * vecRange.m_y - 
@@ -101,7 +101,7 @@ cTopo cSite::GetLookAngle(const cEciTime &eci) const
    double top_z = cos_lat * cos_theta * vecRange.m_x + 
                   cos_lat * sin_theta * vecRange.m_y + 
                   sin_lat * vecRange.m_z;
-   double az    = atan(-top_e / top_s);
+   double az    = std::atan(-top_e / top_s);
 
    if (top_s > 0.0)
    {
@@ -118,7 +118,7 @@ cTopo cSite::GetLookAngle(const cEciTime &eci) const
    // fix to avoid the trigonometric functions return NAN
    el_sin = fix_float_trigonometric_range(el_sin);
 
-   double el = asin(el_sin);
+   double el = std::asin(el_sin);
 
    double rate = (vecRange.m_x * vecRgRate.m_x + 
                   vecRange.m_y * vecRgRate.m_y + 
@@ -131,8 +131,8 @@ cTopo cSite::GetLookAngle(const cEciTime &eci) const
    // Reference:  Astronomical Algorithms by Jean Meeus, pp. 101-104
    // Note:  Correction is meaningless when apparent elevation is below horizon
    el += deg2rad((1.02 / 
-                 tan(deg2rad(rad2deg(el) + 10.3 / 
-                            (rad2deg(el) + 5.11)))) / 60.0);
+       std::tan(deg2rad(rad2deg(el) + 10.3 /
+           (rad2deg(el) + 5.11)))) / 60.0);
    if (el < 0.0)
    {
       // Reset to true elevation

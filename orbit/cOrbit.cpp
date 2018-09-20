@@ -52,11 +52,11 @@ cOrbit::cOrbit(const cTle &tle) :
    double mm     = MeanMotionTle();
    double rpmin  = mm * TWOPI / MIN_PER_DAY;   // rads per minute
 
-   double a1     = pow(XKE / rpmin, 2.0 / 3.0);
+   double a1     = std::pow(XKE / rpmin, 2.0 / 3.0);
    double e      = Eccentricity();
    double i      = Inclination();
-   double temp   = (1.5 * CK2 * (3.0 * orbitTools::sqr(cos(i)) - 1.0) / 
-                   pow(1.0 - e * e, 1.5));   
+   double temp   = (1.5 * CK2 * (3.0 * orbitTools::sqr(std::cos(i)) - 1.0) /
+                   std::pow(1.0 - e * e, 1.5));
    double delta1 = temp / (a1 * a1);
    double a0     = a1 * 
                    (1.0 - delta1 * 
@@ -67,7 +67,7 @@ cOrbit::cOrbit(const cTle &tle) :
 
    m_rmMeanMotionRec    = rpmin / (1.0 + delta0);
    m_aeAxisSemiMajorRec = a0 / (1.0 - delta0);
-   m_aeAxisSemiMinorRec = m_aeAxisSemiMajorRec * sqrt(1.0 - (e * e));
+   m_aeAxisSemiMinorRec = m_aeAxisSemiMajorRec * std::sqrt(1.0 - (e * e));
    m_kmPerigeeRec       = XKMPER_WGS72 * (m_aeAxisSemiMajorRec * (1.0 - e) - AE);
    m_kmApogeeRec        = XKMPER_WGS72 * (m_aeAxisSemiMajorRec * (1.0 + e) - AE);
 
