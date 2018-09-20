@@ -46,15 +46,15 @@ cNoradBase::cNoradBase(const cOrbit &orbit) :
 {
    // Initialize any variables which are time-independent when
    // calculating the ECI coordinates of the satellite.
-   m_sinio = sin(m_Orbit.Inclination());
-   m_cosio = cos(m_Orbit.Inclination());
+   m_sinio = std::sin(m_Orbit.Inclination());
+   m_cosio = std::cos(m_Orbit.Inclination());
 
    double theta2 = m_cosio * m_cosio;
    double x3thm1 = 3.0 * theta2 - 1.0;
    double eosq   = orbitTools::sqr(m_Orbit.Eccentricity());
 
    m_betao2 = 1.0 - eosq;
-   m_betao  = sqrt(m_betao2);
+   m_betao  = std::sqrt(m_betao2);
 
    // For perigee below 156 km, the values of S and QOMS2T are altered.
    double rp      = m_Orbit.SemiMajor() * (1.0 - m_Orbit.Eccentricity());
@@ -64,7 +64,7 @@ cNoradBase::cNoradBase(const cOrbit &orbit) :
    double S  = AE +  78.0 / XKMPER_WGS72;
 
    m_s4     = S;
-   m_qoms24 = pow((Qo - S), 4); //(QO - S)^4 ER^4
+   m_qoms24 = std::pow((Qo - S), 4); //(QO - S)^4 ER^4
 
    m_s4      = S;
    m_qoms24  = QOMS2T;
@@ -78,7 +78,7 @@ cNoradBase::cNoradBase(const cOrbit &orbit) :
          m_s4 = 20.0;
       }
 
-      m_qoms24 = pow((120.0 - m_s4) * AE / XKMPER_WGS72, 4.0);
+      m_qoms24 = std::pow((120.0 - m_s4) * AE / XKMPER_WGS72, 4.0);
       m_s4 = m_s4 / XKMPER_WGS72 + AE;
    }
 
@@ -89,10 +89,10 @@ cNoradBase::cNoradBase(const cOrbit &orbit) :
    m_eeta  = m_Orbit.Eccentricity() * m_eta;
 
    const double etasq = m_eta * m_eta;
-   const double psisq = fabs(1.0 - etasq);
+   const double psisq = std::fabs(1.0 - etasq);
 
-   m_coef  = m_qoms24 * pow(m_tsi, 4.0);
-   m_coef1 = m_coef   / pow(psisq, 3.5);
+   m_coef  = m_qoms24 * std::pow(m_tsi, 4.0);
+   m_coef1 = m_coef   / std::pow(psisq, 3.5);
 
    const double c2 = m_coef1 * m_Orbit.MeanMotion() * 
                      (m_Orbit.SemiMajor() * (1.0 + 1.5 * etasq + m_eeta * (4.0 + etasq)) +
@@ -100,7 +100,7 @@ cNoradBase::cNoradBase(const cOrbit &orbit) :
                      (8.0 + 3.0 * etasq * (8.0 + etasq)));
 
    m_c1 = m_Orbit.BStar() * c2;
-   m_a3ovk2 = -XJ3 / CK2 * pow(AE,3.0);
+   m_a3ovk2 = -XJ3 / CK2 * std::pow(AE,3.0);
 
    m_c3 = m_coef * m_tsi * m_a3ovk2 * m_Orbit.MeanMotion() * AE * m_sinio / m_Orbit.Eccentricity();
 
@@ -112,7 +112,7 @@ cNoradBase::cNoradBase(const cOrbit &orbit) :
               (-3.0 * x3thm1 * (1.0 - 2.0 * m_eeta + etasq * (1.5 - 0.5 * m_eeta)) +
               0.75 * x1mth2 * 
               (2.0 * etasq - m_eeta * (1.0 + etasq)) * 
-              cos(2.0 * m_Orbit.ArgPerigee())));
+              std::cos(2.0 * m_Orbit.ArgPerigee())));
 
    const double theta4 = theta2 * theta2;
    const double temp1  = 3.0 * CK2 * pinvsq * m_Orbit.MeanMotion();;
@@ -158,21 +158,21 @@ cEciTime cNoradBase::FinalPosition(double incl, double  omega,
       throw cPropagationException("Error in satellite data");
    }
 
-   double beta = sqrt(1.0 - e * e);
+   double beta = std::sqrt(1.0 - e * e);
 
    // Long period periodics 
-   double axn  = e * cos(omega);
+   double axn  = e * std::cos(omega);
    double temp = 1.0 / (a * beta * beta);
 
-   double sinip = sin(m_Orbit.Inclination());
-   double cosip = cos(m_Orbit.Inclination());
+   double sinip = std::sin(m_Orbit.Inclination());
+   double cosip = std::cos(m_Orbit.Inclination());
    double aycof = 0.25 * m_a3ovk2 * sinip;
    double xlcof = (0.125 * m_a3ovk2 * sinip * (3.0 + 5.0 * cosip)) / 
                   (1.0 + cosip);
    double xll  = temp * xlcof * axn;
    double aynl = temp * aycof;
    double xlt  = xl + xll;
-   double ayn  = e * sin(omega) + aynl;
+   double ayn  = e * std::sin(omega) + aynl;
 
    const double E6A = 1.0e-06;
 
@@ -190,8 +190,8 @@ cEciTime cNoradBase::FinalPosition(double incl, double  omega,
 
    for (int i = 1; (i <= 10) && !fDone; i++)
    {
-      sinepw = sin(temp2);
-      cosepw = cos(temp2);
+      sinepw = std::sin(temp2);
+      cosepw = std::cos(temp2);
       temp3 = axn * sinepw;
       temp4 = ayn * cosepw;
       temp5 = axn * cosepw;
@@ -200,7 +200,7 @@ cEciTime cNoradBase::FinalPosition(double incl, double  omega,
       double epw = (capu - temp4 + temp3 - temp2) / 
                    (1.0 - temp5 - temp6) + temp2;
 
-      if (fabs(epw - temp2) <= E6A)
+      if (std::fabs(epw - temp2) <= E6A)
       {
          fDone = true;
       }
@@ -218,10 +218,10 @@ cEciTime cNoradBase::FinalPosition(double incl, double  omega,
    double pl = a * temp;
    double r  = a * (1.0 - ecose);
    double temp1 = 1.0 / r;
-   double rdot  = XKE * sqrt(a) * esine * temp1;
-   double rfdot = XKE * sqrt(pl) * temp1;
+   double rdot  = XKE * std::sqrt(a) * esine * temp1;
+   double rfdot = XKE * std::sqrt(pl) * temp1;
    temp2 = a * temp1;
-   double betal = sqrt(temp);
+   double betal = std::sqrt(temp);
    temp3 = 1.0 / (1.0 + betal);
    double cosu  = temp2 * (cosepw - axn + ayn * esine * temp3);
    double sinu  = temp2 * (sinepw - ayn - axn * esine * temp3);
@@ -247,12 +247,12 @@ cEciTime cNoradBase::FinalPosition(double incl, double  omega,
    double rfdotk = rfdot + xn * temp1 * (x1mth2 * cos2u + 1.5 * x3thm1);
 
    // Orientation vectors 
-   double sinuk  = sin(uk);
-   double cosuk  = cos(uk);
-   double sinik  = sin(xinck);
-   double cosik  = cos(xinck);
-   double sinnok = sin(xnodek);
-   double cosnok = cos(xnodek);
+   double sinuk  = std::sin(uk);
+   double cosuk  = std::cos(uk);
+   double sinik  = std::sin(xinck);
+   double cosik  = std::cos(xinck);
+   double sinnok = std::sin(xnodek);
+   double cosnok = std::cos(xnodek);
    double xmx = -sinnok * cosik;
    double xmy = cosnok * cosik;
    double ux  = xmx * sinuk + cosnok * cosuk;

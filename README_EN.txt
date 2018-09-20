@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2018.07.16
+* 2018.09.20
 * orbittools
 
 1. DESCRIPTION
@@ -13,18 +13,23 @@
 -------------------------------------------------------------------------------
 OrbitTools patched sources fork from: http://www.zeptomoby.com/satellites/
 
-The OrbitTools Libraries
-NORAD SGP4/SDP4 Implementations in C++ and C#
-by
-Michael F. Henry
+Partially refactored to be used as a C++ library by adding namespaces, std
+types usage and std function calls.
 
-The OrbitTools Libraries are implementations of NORAD algorithms for determining
-satellite location and velocity in Earth orbit. The algorithms come from the
-December, 1980 NORAD document "Space Track Report No. 3". The orbital algorithms
-implemented in OrbitTools are: SGP4, for "near-Earth" objects, and SDP4 for
-"deep space" objects. These algorithms are widely used in the satellite tracking
-community and produce very accurate results when provided with current NORAD
-two-line element data.
+From authors:
+
+  The OrbitTools Libraries
+  NORAD SGP4/SDP4 Implementations in C++ and C#
+  by
+  Michael F. Henry
+
+  The OrbitTools Libraries are implementations of NORAD algorithms for
+  determining satellite location and velocity in Earth orbit. The algorithms
+  come from the December, 1980 NORAD document "Space Track Report No. 3". The
+  orbital algorithms implemented in OrbitTools are: SGP4, for "near-Earth"
+  objects, and SDP4 for "deep space" objects. These algorithms are widely used
+  in the satellite tracking community and produce very accurate results when
+  provided with current NORAD two-line element data.
 
 The original library patched to fix these issue:
 

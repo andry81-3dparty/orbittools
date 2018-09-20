@@ -36,12 +36,12 @@ cGeo::cGeo(double latRad, double lonRad, double altKm)
 cGeo::cGeo(const cEci& eci, cJulian date)
 {
    Construct(eci.Position(),
-             fmod((AcTan(eci.Position().m_y, eci.Position().m_x) - date.ToGmst()), TWOPI));
+       std::fmod((AcTan(eci.Position().m_y, eci.Position().m_x) - date.ToGmst()), TWOPI));
 }
 
 void cGeo::Construct(const cVector &posEcf, double theta)
 {
-   theta = fmod(theta, TWOPI);
+   theta = std::fmod(theta, TWOPI);
    
    if (theta  < 0.0) 
    {
@@ -50,7 +50,7 @@ void cGeo::Construct(const cVector &posEcf, double theta)
 
    double kmSemiMaj = XKMPER_WGS72;
 
-   double r   = sqrt(orbitTools::sqr(posEcf.m_x) + orbitTools::sqr(posEcf.m_y));
+   double r   = std::sqrt(orbitTools::sqr(posEcf.m_x) + orbitTools::sqr(posEcf.m_y));
    double e2  = F * (2.0 - F);
    double lat = AcTan(posEcf.m_z, r);
 
@@ -61,14 +61,14 @@ void cGeo::Construct(const cVector &posEcf, double theta)
    do   
    {
       phi = lat;
-      c   = 1.0 / sqrt(1.0 - e2 * orbitTools::sqr(sin(phi)));
-      lat = AcTan(posEcf.m_z + kmSemiMaj * c * e2 * sin(phi), r);
+      c   = 1.0 / std::sqrt(1.0 - e2 * orbitTools::sqr(std::sin(phi)));
+      lat = AcTan(posEcf.m_z + kmSemiMaj * c * e2 * std::sin(phi), r);
    }
-   while (fabs(lat - phi) > delta);
+   while (std::fabs(lat - phi) > delta);
    
    m_Lat = lat;
    m_Lon = theta;
-   m_Alt = r / cos(lat) - kmSemiMaj * c;
+   m_Alt = r / std::cos(lat) - kmSemiMaj * c;
 }
 
 // Converts to a string representation of the form "38.0N 045.0W 500m".
@@ -82,8 +82,8 @@ string cGeo::ToString() const
 
    snprintf(sz, BUF_SIZE,
                "%04.3f%c %05.3f%c %.1fm", 
-               to_double(fabs(LatitudeDeg())),  (isNorth ? 'N' : 'S'),
-               to_double(fabs(LongitudeDeg())), (isEast  ? 'E' : 'W'),
+               to_double(std::fabs(LatitudeDeg())),  (isNorth ? 'N' : 'S'),
+               to_double(std::fabs(LongitudeDeg())), (isEast  ? 'E' : 'W'),
                to_double(AltitudeKm() * 1000.0));
 
    string strLoc = sz;

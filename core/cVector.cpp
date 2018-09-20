@@ -23,7 +23,7 @@ void cVector::Mul(double factor)
    m_x *= factor;
    m_y *= factor;
    m_z *= factor;
-   m_w *= fabs(factor);
+   m_w *= std::fabs(factor);
 }
 
 //*****************************************************************************
@@ -47,7 +47,7 @@ double cVector::Angle(const cVector& vec) const
   // fix to avoid the trigonometric functions return NAN
   angle_cos = fix_float_trigonometric_range(angle_cos);
 
-  return acos(angle_cos);
+  return std::acos(angle_cos);
 }
 
 //*****************************************************************************
@@ -55,7 +55,7 @@ double cVector::Angle(const cVector& vec) const
 //*****************************************************************************
 double cVector::Magnitude() const
 {
-  return sqrt((m_x * m_x) + 
+  return std::sqrt((m_x * m_x) +
               (m_y * m_y) + 
               (m_z * m_z));
 }

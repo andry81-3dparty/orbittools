@@ -45,14 +45,14 @@ cEci::cEci(const cGeo& geo, cJulian date)
 
    // Calculate Local Mean Sidereal Time (theta)
    double theta = date.ToLmst(lon);
-   double c = 1.0 / sqrt(1.0 + F * (F - 2.0) * orbitTools::sqr(sin(lat)));
+   double c = 1.0 / std::sqrt(1.0 + F * (F - 2.0) * orbitTools::sqr(std::sin(lat)));
    double s = orbitTools::sqr(1.0 - F) * c;
-   double achcp = (XKMPER_WGS72 * c + alt) * cos(lat);
+   double achcp = (XKMPER_WGS72 * c + alt) * std::cos(lat);
 
-   m_Position.m_x = achcp * cos(theta);         // km
-   m_Position.m_y = achcp * sin(theta);         // km
-   m_Position.m_z = (XKMPER_WGS72 * s + alt) * sin(lat);   // km
-   m_Position.m_w = sqrt(orbitTools::sqr(m_Position.m_x) +  // range, km
+   m_Position.m_x = achcp * std::cos(theta);         // km
+   m_Position.m_y = achcp * std::sin(theta);         // km
+   m_Position.m_z = (XKMPER_WGS72 * s + alt) * std::sin(lat);   // km
+   m_Position.m_w = std::sqrt(orbitTools::sqr(m_Position.m_x) +  // range, km
                          orbitTools::sqr(m_Position.m_y) +
                          orbitTools::sqr(m_Position.m_z));
 
@@ -62,7 +62,7 @@ cEci::cEci(const cGeo& geo, cJulian date)
    m_Velocity.m_x = -mfactor * m_Position.m_y;  // km / sec
    m_Velocity.m_y =  mfactor * m_Position.m_x;  // km / sec
    m_Velocity.m_z = 0.0;                        // km / sec
-   m_Velocity.m_w = sqrt(orbitTools::sqr(m_Velocity.m_x) +  // range rate km/sec^2
+   m_Velocity.m_w = std::sqrt(orbitTools::sqr(m_Velocity.m_x) +  // range rate km/sec^2
                          orbitTools::sqr(m_Velocity.m_y));
 }
 
