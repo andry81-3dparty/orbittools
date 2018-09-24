@@ -1,4 +1,4 @@
 
-#if defined(ORBIT_TOOLS_ENABLE_QD_QD_INTEGRATION) || defined(ORBIT_TOOLS_ENABLE_QD_DD_INTEGRATION)
+#if defined(ENABLE_QD_QD_INTEGRATION) || defined(ENABLE_QD_DD_INTEGRATION)
 #undef double
 #endif

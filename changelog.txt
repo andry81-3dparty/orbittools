@@ -1,3 +1,7 @@
+2018.09.24:
+* fixed: rare out-of-range bug in output from QD trigonometric functions like `dd_real::asin` because of sloppy arithmetic outside and inside a function call
+* fixed: constants through fractional number representation to avoid truncation to a double
+
 2018.09.20:
 * fixed: compilation errors around standard math functions when QD integration has enabled
 * refactor: partially refactored to be used as a C++ library by adding namespaces, std types usage and std function calls.

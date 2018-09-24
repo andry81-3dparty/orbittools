@@ -7,8 +7,8 @@ project("orbitTools")
 set(PROJECT_LIB_NAME orbitTools)
 
 discover_variable(QD_ROOT PATH "QD math library")
-discover_variable(ORBIT_TOOLS_ENABLE_QD_QD_INTEGRATION STRING "orbitTools library qd_real replacement for the double")
-discover_variable(ORBIT_TOOLS_ENABLE_QD_DD_INTEGRATION STRING "orbitTools library dd_real replacement for the double")
+discover_variable(ENABLE_QD_QD_INTEGRATION STRING "enable Qd library qd_real replacement for the double")
+discover_variable(ENABLE_QD_DD_INTEGRATION STRING "enable Qd library dd_real replacement for the double")
 
 
 file(GLOB_RECURSE all_headers ${CMAKE_CURRENT_LIST_DIR}/*.h*)
@@ -37,15 +37,15 @@ target_link_libraries(${PROJECT_LIB_NAME}
     qd
 )
 
-if (ORBIT_TOOLS_ENABLE_QD_QD_INTEGRATION)
+if (ENABLE_QD_QD_INTEGRATION)
   add_target_compile_definitions(${PROJECT_LIB_NAME} *
     PUBLIC
-      ORBIT_TOOLS_ENABLE_QD_QD_INTEGRATION
+      ENABLE_QD_QD_INTEGRATION
   )
 endif()
-if (ORBIT_TOOLS_ENABLE_QD_DD_INTEGRATION)
+if (ENABLE_QD_DD_INTEGRATION)
   add_target_compile_definitions(${PROJECT_LIB_NAME} *
     PUBLIC
-      ORBIT_TOOLS_ENABLE_QD_DD_INTEGRATION
+      ENABLE_QD_DD_INTEGRATION
   )
 endif()

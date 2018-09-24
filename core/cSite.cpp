@@ -116,7 +116,7 @@ cTopo cSite::GetLookAngle(const cEciTime &eci) const
    double el_sin = top_z / vecRange.m_w;
 
    // fix to avoid the trigonometric functions return NAN
-   el_sin = fix_float_trigonometric_range(el_sin);
+   el_sin = fix_float_trigonometric_range_factor(el_sin);
 
    double el = std::asin(el_sin);
 
