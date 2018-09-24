@@ -45,7 +45,7 @@ double cVector::Angle(const cVector& vec) const
   double angle_cos = Dot(vec) / (Magnitude() * vec.Magnitude());
 
   // fix to avoid the trigonometric functions return NAN
-  angle_cos = fix_float_trigonometric_range(angle_cos);
+  angle_cos = fix_float_trigonometric_range_factor(angle_cos);
 
   return std::acos(angle_cos);
 }
