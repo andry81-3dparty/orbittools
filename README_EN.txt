@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2018.09.21
+* 2018.09.27
 * orbittools
 
 1. DESCRIPTION
@@ -31,17 +31,21 @@ From authors:
   in the satellite tracking community and produce very accurate results when
   provided with current NORAD two-line element data.
 
-The original library patched to fix these issue:
+The original library patched to fix these issues:
 
-1. All double's replaced by dd_real from QD library to decrease precision
-   fluctuation to the minimum in certain cases.
+1. Build in msvc 2015 update 3 and under gcc 5.4.
 
-2. time_t in cJulian class replaced by floating point value to avoid truncation
-   to seconds.
+2. Propagation fluctuation based on different calls order.
 
-2. Fix trigonometric range before call and after call to triginometric
+3. Fix trigonometric range before call and after call to triginometric
    functions because of sloppy QD arithmetic outside and inside a function
    call.
+
+4. All double's replaced by dd_real from QD library to decrease precision
+   fluctuation to the minimum in certain cases.
+
+5. time_t in cJulian class replaced by floating point value to avoid truncation
+   to seconds.
 
 All patches improved precision from ~400 meters per 100km altitude along
 velocity vector in certain routines up to 10^-7 meters per 100km altitude along
