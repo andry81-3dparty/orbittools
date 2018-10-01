@@ -31,9 +31,9 @@ cNoradSGP4::cNoradSGP4(const cOrbit &orbit) :
    double etasq = m_eta * m_eta;
 
    m_c5     = 2.0 * m_coef1 * m_Orbit.SemiMajor() * m_betao2 * 
-              (1.0 + 2.75 * (etasq + m_eeta) + m_eeta * etasq);
+              (1.0 + double(2.75) * (etasq + m_eeta) / 1e2 + m_eeta * etasq);
    m_omgcof = m_Orbit.BStar() * m_c3 * std::cos(m_Orbit.ArgPerigee());
-   m_xmcof  = -(2.0 / 3.0) * m_coef * m_Orbit.BStar() * AE / m_eeta;
+   m_xmcof  = -(double(2.0) / 3.0) * m_coef * m_Orbit.BStar() * AE / m_eeta;
    m_delmo  = std::pow(1.0 + m_eta * std::cos(m_Orbit.MeanAnomaly()), (int)3.0);
    m_sinmo  = std::sin(m_Orbit.MeanAnomaly());
 }

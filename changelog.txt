@@ -1,3 +1,7 @@
+2018.10.01:
+* fixed: constants which could not fit in the double representation w/o truncation has converted into fractional number representation with inplace division
+* minor cmake change
+
 2018.09.24:
 * fixed: rare out-of-range bug in output from QD trigonometric functions like `dd_real::asin` because of sloppy arithmetic outside and inside a function call
 * fixed: constants through fractional number representation to avoid truncation to a double

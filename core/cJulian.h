@@ -19,9 +19,9 @@ namespace OrbitTools
 //
 // See note in cJulian.cpp for information on this class and the epoch dates
 //
-const double EPOCH_JAN0_12H_1900 = 2415020.0; // Dec 31.5 1899 = Dec 31 1899 12h UTC
-const double EPOCH_JAN1_00H_1900 = 2415020.5; // Jan  1.0 1900 = Jan  1 1900 00h UTC
-const double EPOCH_JAN1_12H_2000 = 2451545.0; // Jan  1.5 2000 = Jan  1 2000 12h UTC
+const double EPOCH_JAN0_12H_1900 = double(2415020'0) / 1e1; // Dec 31.5 1899 = Dec 31 1899 12h UTC
+const double EPOCH_JAN1_00H_1900 = double(2415020'5) / 1e1; // Jan  1.0 1900 = Jan  1 1900 00h UTC
+const double EPOCH_JAN1_12H_2000 = double(2451545'0) / 1e1; // Jan  1.5 2000 = Jan  1 2000 12h UTC
 
 //////////////////////////////////////////////////////////////////////////////
 class cJulian  

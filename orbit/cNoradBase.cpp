@@ -120,13 +120,13 @@ cNoradBase::cNoradBase(const cOrbit &orbit) :
    const double temp3  = 1.25 * CK4 * pinvsq * pinvsq * m_Orbit.MeanMotion();;
 
    m_xmdot = m_Orbit.MeanMotion() + 0.5 * temp1 * m_betao * x3thm1 +
-             0.0625 * temp2 * m_betao * 
-             (13.0 - 78.0 * theta2 + 137.0 * theta4);
+             double(625) * temp2 * m_betao * 
+             (13.0 - 78.0 * theta2 + 137.0 * theta4) / 1e4;
 
    const double x1m5th = 1.0 - 5.0 * theta2;
 
-   m_omgdot = -0.5 * temp1 * x1m5th + 0.0625 * temp2 * 
-              (7.0 - 114.0 * theta2 +  395.0 * theta4) +
+   m_omgdot = -0.5 * temp1 * x1m5th + double(625) * temp2 * 
+              (7.0 - 114.0 * theta2 +  395.0 * theta4) / 1e4 +
               temp3 * (3.0 - 36.0 * theta2 + 49.0 * theta4);
 
    const double xhdot1 = -temp1 * m_cosio;
@@ -167,7 +167,7 @@ cEciTime cNoradBase::FinalPosition(double incl, double  omega,
    double sinip = std::sin(m_Orbit.Inclination());
    double cosip = std::cos(m_Orbit.Inclination());
    double aycof = 0.25 * m_a3ovk2 * sinip;
-   double xlcof = (0.125 * m_a3ovk2 * sinip * (3.0 + 5.0 * cosip)) / 
+   double xlcof = (double(125) * m_a3ovk2 * sinip * (3.0 + 5.0 * cosip) / 1e3) / 
                   (1.0 + cosip);
    double xll  = temp * xlcof * axn;
    double aynl = temp * aycof;

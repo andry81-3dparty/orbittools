@@ -29,18 +29,18 @@ const double TWOPI        = 2.0 * PI;
 #endif
 const double RADS_PER_DEG = PI / 180.0;
 
-const double GM           = double(398601'2) / 10;       // Earth gravitational constant, km^3/sec^2
-const double GEOSYNC_ALT  = double(42241'892) / 1000;    // km
-const double EARTH_DIA    = double(12742'0176) / 10000;  //12800.0;      // km
-const double DAY_SIDERAL  = (23 * 3600) + (56 * 60) + double(409) / 100;  // sec
+const double GM           = double(398601'2) / 1e1;     // Earth gravitational constant, km^3/sec^2
+const double GEOSYNC_ALT  = double(42241'892) / 1e3;    // km
+const double EARTH_DIA    = double(12742'0176) / 1e4;   //12800.0;      // km
+const double DAY_SIDERAL  = (23 * 3600) + (56 * 60) + double(409) / 1e2;  // sec
 const double DAY_24HR     = (24 * 3600);   // sec
 
 const double AE           = 1.0;
-const double AU           = double(149597870'691) / 1000; //149597870.0;  // Astronomical unit (km) (IAU 76)
+const double AU           = double(149597870'691) / 1e3; //149597870.0;  // Astronomical unit (km) (IAU 76)
 const double SR           = 696000.0;     // Solar radius (km)      (IAU 76)
-const double XKMPER_WGS72 = double(6378'137) / 1000; //6378.135;            // Earth equatorial radius - km (WGS '72)
+const double XKMPER_WGS72 = double(6378'137) / 1e3; //6378.135;            // Earth equatorial radius - km (WGS '72)
 const double F            = (double(6378'1370) - 6356'7523) / 6378'1370; //1.0 / 298.26; // Earth flattening (WGS '72)
-const double GE           = double(398600'8) / 10;      // Earth gravitational constant (WGS '72)
+const double GE           = double(398600'8) / 1e1;      // Earth gravitational constant (WGS '72)
 const double J2           = double(1'0826158) / 1e10;    // J2 harmonic (WGS '72)
 const double J3           = double(-2'53881) / 1e11;     // J3 harmonic (WGS '72)
 const double J4           = double(-1'65597) / 1e11;     // J4 harmonic (WGS '72)

@@ -24,11 +24,11 @@ namespace Zeptomoby
 {
 namespace OrbitTools
 {
-static const double zes  = 0.01675;
-static const double zel  = 0.05490;
-static const double zns  = 1.19459e-05; 
-static const double znl  = 1.5835218e-04;   
-static const double thdt = 4.3752691e-03;
+static const double zes  = double(1675) / 1e5;
+static const double zel  = double(5490) / 1e5;
+static const double zns  = double(1'19459) / 1e10;
+static const double znl  = double(1'5835218) / 1e11;
+static const double thdt = double(4'3752691) / 1e10;
 
 //////////////////////////////////////////////////////////////////////////////
 cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
@@ -52,19 +52,19 @@ cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
 
    // Initialize lunar solar terms 
    double day = jd.FromJan0_12h_1900();
-   double dpi_xnodce = 4.5236020 - 9.2422029E-4 * day;
+   double dpi_xnodce = double(4'5236020) / 1e7 - double(9'2422029) * day / 1e11;
    double dpi_stem   = std::sin(dpi_xnodce);
    double dpi_ctem   = std::cos(dpi_xnodce);
-   double dpi_zcosil = 0.91375164 - 0.03568096 * dpi_ctem;
+   double dpi_zcosil = double(91375164) / 1e8 - double(3568096) * dpi_ctem / 1e8;
    double dpi_zsinil = std::sqrt(1.0 - dpi_zcosil * dpi_zcosil);
-   double dpi_zsinhl = 0.089683511 *dpi_stem / dpi_zsinil;
+   double dpi_zsinhl = double(89683511) * dpi_stem / dpi_zsinil / 1e9;
    double dpi_zcoshl = std::sqrt(1.0 - dpi_zsinhl * dpi_zsinhl);
-   double dpi_c      = 4.7199672 + 0.22997150 * day;
-   double dpi_gam    = 5.8351514 + 0.0019443680 * day;
+   double dpi_c      = double(4'7199672) / 1e7 + double(22997150) * day / 1e8;
+   double dpi_gam    = double(5'8351514) / 1e7 + double(19443680) * day / 1e10;
    
    dp_zmol = Fmod2p(dpi_c - dpi_gam);
 
-   double dpi_zx = 0.39785416 * dpi_stem / dpi_zsinil;
+   double dpi_zx = double(39785416) * dpi_stem / dpi_zsinil / 1e8;
    double dpi_zy = dpi_zcoshl * dpi_ctem + 0.91744867 * dpi_zsinhl * dpi_stem;
 
    dpi_zx = AcTan(dpi_zx,dpi_zy) + dpi_gam - dpi_xnodce;
@@ -72,14 +72,14 @@ cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
    double dpi_zcosgl = std::cos(dpi_zx);
    double dpi_zsingl = std::sin(dpi_zx);
 
-   dp_zmos   = 6.2565837 + 0.017201977 * day;
+   dp_zmos   = double(6'2565837) / 1e7 + double(17201977) * day / 1e9;
    dp_zmos   = Fmod2p(dp_zmos);
    
-   const double zcosis = 0.91744867;
-   const double zsinis = 0.39785416;     
-   const double c1ss   = 2.9864797e-06;
-   const double zsings = -0.98088458;
-   const double zcosgs =  0.1945905;
+   const double zcosis = double(91744867) / 1e8;
+   const double zsinis = double(39785416) / 1e8;
+   const double c1ss   = double(2'9864797) / 1e13;
+   const double zsings = -double(98088458) / 1e8;
+   const double zcosgs =  double(1945905) / 1e7;
 
    double zcosg = zcosgs;
    double zsing = zsings;
@@ -150,7 +150,7 @@ cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
       sgh =  s4 * zn * (z31 + z33 - 6.0);
       sh  = -zn * s2 * (z21 + z23);
 
-      if (m_Orbit.Inclination() < 5.2359877E-2)
+      if (m_Orbit.Inclination() < double(5'2359877) / 1e9)
       {
          sh = 0.0;
       }
@@ -196,7 +196,7 @@ cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
          zsinh = sinq * dpi_zcoshl - cosq * dpi_zsinhl;
          zn = znl;
 
-         const double c1l = 4.7968065e-07;
+         const double c1l = double(4'7968065) / 1e14;
 
          cc = c1l;
          ze = zel;
@@ -219,29 +219,29 @@ cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
 
    // Determine if orbit is 24- or 12-hour resonant.
    // Mean motion is given in radians per minute.
-   if ((m_Orbit.MeanMotion() > 0.0034906585) && (m_Orbit.MeanMotion() < 0.0052359877))
+   if ((m_Orbit.MeanMotion() > double(34906585) / 1e10) && (m_Orbit.MeanMotion() < double(52359877) / 1e10))
    {
       // Orbit is within the Clarke Belt (period is 24-hour resonant).
       // Synchronous resonance terms initialization
       gp_reso = true;
       gp_sync = true;
 
-      double g200 = 1.0 + eqsq * (-2.5 + 0.8125 * eqsq);
+      double g200 = 1.0 + eqsq * (-2.5 + double(8125) * eqsq / 1e4);
 
       g310 = 1.0 + 2.0 * eqsq;
 
-      double g300 = 1.0 + eqsq * (-6.0 + 6.60937 * eqsq);
+      double g300 = 1.0 + eqsq * (-6.0 + double(6'60937) * eqsq / 1e5);
 
       f220 = 0.75 * (1.0 + m_cosio) * (1.0 + m_cosio);
 
-      double f311 = 0.9375 * m_sinio * m_sinio * (1.0 + 3 * m_cosio) - 0.75 * (1.0 + m_cosio);
+      double f311 = double(9375) * m_sinio * m_sinio * (1.0 + 3 * m_cosio) / 1e4 - 0.75 * (1.0 + m_cosio);
       double f330 = 1.0 + m_cosio;
 
-      const double q22 = 1.7891679e-06;
-      const double q31 = 2.1460748e-06;   
-      const double q33 = 2.2123015e-07;   
+      const double q22 = double(1'7891679) / 1e13;
+      const double q31 = double(2'1460748) / 1e13;
+      const double q33 = double(2'2123015) / 1e14;
 
-      f330 = 1.875 * f330 * f330 * f330;
+      f330 = double(1'875) * f330 * f330 * f330 / 1e3;
       dp_del1 = 3.0 * m_Orbit.MeanMotion() * m_Orbit.MeanMotion() * aqnv * aqnv;
       dp_del2 = 2.0 * dp_del1 * f220 * g200 * q22;
       dp_del3 = 3.0 * dp_del1 * f330 * g300 * q33 * aqnv;
@@ -250,42 +250,42 @@ cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
       bfact = m_xmdot + xpidot - thdt;
       bfact = bfact + dp_ssl + dp_ssg + dp_ssh;
    }
-   else if (((m_Orbit.MeanMotion() >= 8.26E-03) && (m_Orbit.MeanMotion() <= 9.24E-03)) && (eq >= 0.5))
+   else if (((m_Orbit.MeanMotion() >= double(8'26) / 1e5) && (m_Orbit.MeanMotion() <= double(9'24) / 1e5)) && (eq >= 0.5))
    {
       // Period is 12-hour resonant
       gp_reso = true;
 
       double eoc  = eq * eqsq;
-      double g201 = -0.306 - (eq - 0.64) * 0.440;
+      double g201 = -double(0'306) / 1e3 - (eq - double(64) / 1e2) * double(440) / 1e3;
 
       double g211;   double g322;
-      double g410;   double g422;   
+      double g410;   double g422;
       double g520;
 
-      if (eq <= 0.65)
+      if (eq <= double(65) / 1e2)
       {
-         g211 =    3.616 -  13.247  * eq + 16.290   * eqsq;
-         g310 =  -19.302 +  117.390 * eq - 228.419  * eqsq + 156.591  * eoc;
-         g322 = -18.9068 + 109.7927 * eq - 214.6334 * eqsq + 146.5816 * eoc;
-         g410 =  -41.122 +  242.694 * eq - 471.094  * eqsq +  313.953 * eoc;
-         g422 = -146.407 +  841.880 * eq - 1629.014 * eqsq + 1083.435 * eoc;
-         g520 = -532.114 + 3017.977 * eq - 5740.0   * eqsq + 3708.276 * eoc;
+         g211 = ( double(  3'616 ) - double(  13'247 ) * eq + double(  16'290 ) * eqsq) / 1e3;
+         g310 = (-double( 19'302 ) + double( 117'390 ) * eq - double( 228'419 ) * eqsq + double( 156'591 ) * eoc) / 1e3;
+         g322 = (-double( 18'9068) + double( 109'7927) * eq - double( 214'6334) * eqsq + double( 146'5816) * eoc) / 1e4;
+         g410 = (-double( 41'122 ) + double( 242'694 ) * eq - double( 471'094 ) * eqsq + double( 313'953 ) * eoc) / 1e3;
+         g422 = (-double(146'407 ) + double( 841'880 ) * eq - double(1629'014 ) * eqsq + double(1083'435 ) * eoc) / 1e3;
+         g520 = (-double(532'114 ) + double(3017'977 ) * eq - double(5740'000 ) * eqsq + double(3708'276 ) * eoc) / 1e3;
       }
       else
       {
-         g211 =   -72.099 +  331.819 * eq -  508.738 * eqsq +  266.724 * eoc;
-         g310 =  -346.844 + 1582.851 * eq - 2415.925 * eqsq + 1246.113 * eoc;
-         g322 =  -342.585 + 1554.908 * eq - 2366.899 * eqsq + 1215.972 * eoc;
-         g410 = -1052.797 + 4758.686 * eq - 7193.992 * eqsq + 3651.957 * eoc;
-         g422 = -3581.69  + 16178.11 * eq - 24462.77 * eqsq + 12422.52 * eoc;
+         g211 = (double(  -72'099) + double(  331'819) * eq - double(  508'738) * eqsq + double(  266'724) * eoc) / 1e3;
+         g310 = (double( -346'844) + double( 1582'851) * eq - double( 2415'925) * eqsq + double( 1246'113) * eoc) / 1e3;
+         g322 = (double( -342'585) + double( 1554'908) * eq - double( 2366'899) * eqsq + double( 1215'972) * eoc) / 1e3;
+         g410 = (double(-1052'797) + double( 4758'686) * eq - double( 7193'992) * eqsq + double( 3651'957) * eoc) / 1e3;
+         g422 = (double(-3581'69 ) + double(16178'11 ) * eq - double(24462'77 ) * eqsq + double(12422'52 ) * eoc) / 1e2;
 
-         if (eq <= 0.715)
+         if (eq <= double(715) / 1e3)
          {
-            g520 = 1464.74 - 4664.75 * eq + 3763.64 * eqsq;
+            g520 = (double(1464'74) - double(4664'75) * eq + double(3763'64) * eqsq) / 1e2;
          }
          else
          {
-            g520 = -5149.66 + 29936.92 * eq - 54087.36 * eqsq + 31324.56 * eoc;
+            g520 = (-double(5149'66) + double(29936'92) * eq - double(54087'36) * eqsq + double(31324'56) * eoc) / 1e2;
          }
       }
 
@@ -293,17 +293,17 @@ cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
       double g521;   
       double g532;
 
-      if (eq < 0.7)
+      if (eq < double(7) / 1e1)
       {
-         g533 = -919.2277  + 4988.61   * eq - 9064.77   * eqsq + 5542.21  * eoc;
-         g521 = -822.71072 + 4568.6173 * eq - 8491.4146 * eqsq + 5337.524 * eoc;
-         g532 = -853.666   + 4690.25   * eq - 8624.77   * eqsq + 5341.4   * eoc;
+         g533 = (double(-919'2277 ) + double(4988'6100 ) * eq - double(9064'7700 ) * eqsq + double(5542'2100 ) * eoc) / 1e4;
+         g521 = (double(-822'71072) + double(4568'61730) * eq - double(8491'41460) * eqsq + double(5337'52400) * eoc) / 1e5;
+         g532 = (double(-853'666  ) + double(4690'250  ) * eq - double(8624'770  ) * eqsq + double(5341'400  ) * eoc) / 1e3;
       }
       else
       {
-         g533 = -37995.78  + 161616.52 * eq - 229838.2  * eqsq + 109377.94 * eoc;
-         g521 = -51752.104 + 218913.95 * eq - 309468.16 * eqsq + 146349.42 * eoc;
-         g532 = -40023.88  + 170470.89 * eq - 242699.48 * eqsq + 115605.82 * eoc;
+         g533 = (double(-37995'78 ) + double(161616'52 ) * eq - double(229838'20 ) * eqsq + double(109377'94 ) * eoc) / 1e2;
+         g521 = (double(-51752'104) + double(218913'950) * eq - double(309468'160) * eqsq + double(146349'420) * eoc) / 1e3;
+         g532 = (double(-40023'88 ) + double(170470'89 ) * eq - double(242699'48 ) * eqsq + double(115605'82 ) * eoc) / 1e2;
       }
 
       double sini2  = orbitTools::sqr(m_sinio);
@@ -311,23 +311,23 @@ cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
 
       f220 = 0.75 * (1.0 + 2.0 * m_cosio + theta2);
 
-      const double root22 = 1.7891679e-06;
-      const double root32 = 3.7393792e-07;
-      const double root44 = 7.3636953e-09;
-      const double root52 = 1.1428639e-07;
-      const double root54 = 2.1765803e-09;   
+      const double root22 = double(1'7891679) / 1e13;
+      const double root32 = double(3'7393792) / 1e14;
+      const double root44 = double(7'3636953) / 1e10 / 1e6;
+      const double root52 = double(1'1428639) / 1e14;
+      const double root54 = double(2'1765803) / 1e10 / 1e6;
 
       double f221 = 1.5 * sini2;
-      double f321 =  1.875 * m_sinio * (1.0 - 2.0 * m_cosio - 3.0 * theta2);
-      double f322 = -1.875 * m_sinio * (1.0 + 2.0 * m_cosio - 3.0 * theta2);
+      double f321 =  double(1'875) * m_sinio * (1.0 - 2.0 * m_cosio - 3.0 * theta2) / 1e3;
+      double f322 = -double(1'875) * m_sinio * (1.0 + 2.0 * m_cosio - 3.0 * theta2) / 1e3;
       double f441 = 35.0 * sini2 * f220;
-      double f442 = 39.3750 * sini2 * sini2;
-      double f522 = 9.84375 * m_sinio * (sini2 * (1.0 - 2.0 * m_cosio - 5.0 * theta2) +
-                    0.33333333*(-2.0 + 4.0 * m_cosio + 6.0 * theta2));
-      double f523 = m_sinio * (4.92187512 * sini2 * (-2.0 - 4.0 * m_cosio + 10.0 * theta2) +
-                    6.56250012 * (1.0 + 2.0 * m_cosio - 3.0 * theta2));
-      double f542 = 29.53125 * m_sinio * ( 2.0 - 8.0 * m_cosio + theta2 * (-12.0 + 8.0 * m_cosio + 10.0 * theta2));
-      double f543 = 29.53125 * m_sinio * (-2.0 - 8.0 * m_cosio + theta2 * ( 12.0 + 8.0 * m_cosio - 10.0 * theta2));
+      double f442 = double(39'3750) * sini2 * sini2 / 1e4;
+      double f522 = double(9'84375) * m_sinio * (sini2 * (1.0 - 2.0 * m_cosio - 5.0 * theta2) +
+                    (-2.0 + 4.0 * m_cosio + 6.0 * theta2) / 3) / 1e5;
+      double f523 = m_sinio * (double(4'92187512) * sini2 * (-2.0 - 4.0 * m_cosio + 10.0 * theta2) +
+                    double(6'56250012) * (1.0 + 2.0 * m_cosio - 3.0 * theta2)) / 1e8;
+      double f542 = double(29'53125) * m_sinio * ( 2.0 - 8.0 * m_cosio + theta2 * (-12.0 + 8.0 * m_cosio + 10.0 * theta2)) / 1e5;
+      double f543 = double(29'53125) * m_sinio * (-2.0 - 8.0 * m_cosio + theta2 * ( 12.0 + 8.0 * m_cosio - 10.0 * theta2)) / 1e5;
       double xno2 = m_Orbit.MeanMotion() * m_Orbit.MeanMotion();
       double ainv2 = aqnv * aqnv;
       double temp1 = 3.0 * xno2 * ainv2;
@@ -388,9 +388,9 @@ cNoradSDP4::~cNoradSDP4()
 //////////////////////////////////////////////////////////////////////////////
 bool cNoradSDP4::DeepCalcDotTerms(double *pxndot, double *pxnddt, double *pxldot)
 {
-   const double fasx2 = 0.13130908;
-   const double fasx4 = 2.8843198;
-   const double fasx6 = 0.37448087;
+   const double fasx2 = double(13130908) / 1e8;
+   const double fasx4 = double(2'8843198) / 1e7;
+   const double fasx6 = double(37448087) / 1e8;
 
    // Dot terms calculated 
    if (gp_sync)
@@ -404,11 +404,11 @@ bool cNoradSDP4::DeepCalcDotTerms(double *pxndot, double *pxnddt, double *pxldot
    }
    else
    {
-      const double g22 = 5.7686396;
-      const double g32 = 0.95240898;
-      const double g44 = 1.8014998;
-      const double g52 = 1.0508330;      
-      const double g54 = 4.4108898;
+      const double g22 = double(5'7686396) / 1e7;
+      const double g32 = double(95240898) / 1e8;
+      const double g44 = double(1'8014998) / 1e7;
+      const double g52 = double(1'0508330) / 1e7;
+      const double g54 = double(4'4108898) / 1e7;
 
       double xomi  = m_Orbit.ArgPerigee() + m_omgdot * dp_atime;
       double x2omi = xomi + xomi;
@@ -606,7 +606,7 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
    *xincc = (*xincc) + pinc;
    *e  = (*e) + pe;
 
-   if (m_Orbit.Inclination() >= 0.2)
+   if (m_Orbit.Inclination() >= double(2) / 1e1)
    {
       // Apply periodics directly 
       ph  = ph / m_sinio;
@@ -664,7 +664,7 @@ cEciTime cNoradSDP4::GetPosition(double tsince)
 
    DeepSecular(&xmdf, &omgadf, &xnode, &em, &xinc, &xn, tsince);
 
-   double a    = std::pow(XKE / xn, 2.0 / 3.0) * orbitTools::sqr(tempa);
+   double a    = std::pow(XKE / xn, double(2.0) / 3.0) * orbitTools::sqr(tempa);
    double e    = em - tempe;
    double xmam = xmdf + m_Orbit.MeanMotion() * templ;
 
