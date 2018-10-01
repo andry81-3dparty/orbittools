@@ -52,7 +52,7 @@ cOrbit::cOrbit(const cTle &tle) :
    double mm     = MeanMotionTle();
    double rpmin  = mm * TWOPI / MIN_PER_DAY;   // rads per minute
 
-   double a1     = std::pow(XKE / rpmin, 2.0 / 3.0);
+   double a1     = std::pow(XKE / rpmin, double(2.0) / 3.0);
    double e      = Eccentricity();
    double i      = Inclination();
    double temp   = (1.5 * CK2 * (3.0 * orbitTools::sqr(std::cos(i)) - 1.0) /
@@ -60,8 +60,8 @@ cOrbit::cOrbit(const cTle &tle) :
    double delta1 = temp / (a1 * a1);
    double a0     = a1 * 
                    (1.0 - delta1 * 
-                   ((1.0 / 3.0) + delta1 * 
-                   (1.0 + 134.0 / 81.0 * delta1)));
+                   ((double(1.0) / 3.0) + delta1 * 
+                   (1.0 + double(134.0) / 81.0 * delta1)));
 
    double delta0 = temp / (a0 * a0);
 

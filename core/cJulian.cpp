@@ -142,9 +142,9 @@ void cJulian::Initialize(int year, double day)
    int A = (year / 100);
    int B = 2 - A + (A / 4);
 
-   double NewYears = (int)(365.25 * year) +
-                     (int)(30.6001 * 14)  + 
-                     1720994.5 + B;  // 1720994.5 = Oct 30, year -1
+   double NewYears = std::floor(double(365'25) * year / 1e2) +
+                     std::floor(double(30'6001) * 14 / 1e4)  +
+                     double(1720994'5) / 1e1 + B;  // 1720994.5 = Oct 30, year -1
 
    m_Date = NewYears + day;
 }
@@ -164,14 +164,14 @@ void cJulian::GetComponent(int    *pYear,
    double jdAdj = Date() + 0.5;
    int    Z     = (int)to_double(jdAdj);  // integer part
    double F     = jdAdj - Z;   // fractional part
-   double alpha = (int)((Z - 1867216.25) / 36524.25);
-   double A     = Z + 1 + alpha - (int)to_double((alpha / 4.0));
+   double alpha = std::floor((Z - double(1867216'25) / 1e2) / double(36524'25) * 1e2);
+   double A     = Z + 1 + alpha - std::floor(alpha / 4.0);
    double B     = A + 1524.0;
-   int    C     = (int)to_double(((B - 122.1) / 365.25));
-   int    D     = (int)(C * 365.25);
-   int    E     = (int)to_double(((B - D) / 30.6001));
+   int    C     = (int)to_double(((B - double(122'1) / 1e1) / double(365'25) * 1e2));
+   int    D     = (int)(to_double(C * double(365'25) / 1e2));
+   int    E     = (int)to_double(((B - D) / double(30'6001) * 1e4));
 
-   double DOM   = B - D - (int)(E * 30.6001) + F;
+   double DOM   = B - D - std::floor(E * double(30'6001) / 1e4) + F;
    int    month = (E < 13.5) ? (E - 1) : (E - 13);
    int    year  = (month > 2.5) ? (C - 4716) : (C - 4715); 
    
@@ -204,8 +204,8 @@ double cJulian::ToGmst() const
    const double UT = std::fmod(m_Date + 0.5, 1.0);
    const double TU = (FromJan1_12h_2000() - UT) / 36525.0;
 
-   double GMST = 24110.54841 + TU * 
-                 (8640184.812866 + TU * (0.093104 - TU * 6.2e-06));
+   double GMST = double(int64_t(24110'54841)) / 1e5 + TU * 
+                 (double(int64_t(8640184'812866)) / 1e6 + TU * (double(93104) / 1e6 - TU * double(62) / 1e7));
 
    GMST = std::fmod(GMST + SEC_PER_DAY * OMEGA_E * UT, SEC_PER_DAY);
    
