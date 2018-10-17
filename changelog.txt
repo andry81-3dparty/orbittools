@@ -1,3 +1,6 @@
+2018.10.17:
+* changed: update for latest cmake dependency
+
 2018.10.01:
 * fixed: constants which could not fit in the double representation w/o truncation has converted into fractional number representation with inplace division
 * minor cmake change
