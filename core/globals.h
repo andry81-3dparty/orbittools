@@ -20,7 +20,7 @@ namespace Zeptomoby
 {
 namespace OrbitTools
 {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
 const double PI           = double::_pi(); //3.141592653589793;
 const double TWOPI        = double::_2pi(); //2.0 * PI;
 #else

@@ -1,3 +1,9 @@
+2018.11.20:
+* new: ENABLE_QD_INTEGRATION definition usage
+* refactor: ENABLE_* variables usage refactor
+* refactor: removed QD_INTEGRATION_ENABLED variable usage
+* refactor: cast functions refactor
+
 2018.10.17:
 * changed: update for latest cmake dependency
 

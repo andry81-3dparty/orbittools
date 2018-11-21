@@ -41,7 +41,7 @@ namespace OrbitTools
 //////////////////////////////////////////////////////////////////////////////
 // Create a Julian date object from a time_t object. time_t objects store the
 // number of seconds since midnight UTC January 1, 1970.
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
 
 cJulian::cJulian(double utc_time_sec)
 {

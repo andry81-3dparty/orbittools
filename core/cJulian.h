@@ -28,7 +28,7 @@ class cJulian
 {
 public:
    cJulian() { Initialize(2000, 1); }
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
    explicit cJulian(double utc_time_sec);   // Create from seconds with remainder
 #else
    explicit cJulian(time_t t);              // Create from time_t
