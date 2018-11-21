@@ -19,7 +19,7 @@ namespace OrbitTools
 //////////////////////////////////////////////////////////////////////////////
 double sqr(const double x) 
 {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
    return ::sqr(x);
 #else
    return (x * x);
