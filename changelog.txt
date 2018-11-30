@@ -1,3 +1,7 @@
+2018.11.22:
+* fixed: build under linux, use C++11 only
+* fixed: removed numeric literals group separator (apostrophe (')) usage which is part of C++14 standard
+
 2018.11.20:
 * new: ENABLE_QD_INTEGRATION definition usage
 * refactor: ENABLE_* variables usage refactor
