@@ -130,9 +130,9 @@ cTopo cSite::GetLookAngle(const cEciTime &eci) const
    // Elevation correction for atmospheric refraction.
    // Reference:  Astronomical Algorithms by Jean Meeus, pp. 101-104
    // Note:  Correction is meaningless when apparent elevation is below horizon
-   el += deg2rad((double(1'02) / 
-       std::tan(deg2rad(rad2deg(el) + double(10'3) /
-           (rad2deg(el) + double(5'11) / 1e2) / 1e1)) / 1e2) / 60.0);
+   el += deg2rad((double(102) / 
+       std::tan(deg2rad(rad2deg(el) + double(103) /
+           (rad2deg(el) + double(511) / 1e2) / 1e1)) / 1e2) / 60.0);
    if (el < 0.0)
    {
       // Reset to true elevation
