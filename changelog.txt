@@ -1,3 +1,6 @@
+2019.10.07:
+* changed: cmake: switch to last tacklelib library
+
 2018.11.22:
 * fixed: build under linux, use C++11 only
 * fixed: removed numeric literals group separator (apostrophe (')) usage which is part of C++14 standard
