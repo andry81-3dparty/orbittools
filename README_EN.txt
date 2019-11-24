@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2018.09.27
+* 2019.11.24
 * orbittools
 
 1. DESCRIPTION
@@ -12,6 +12,8 @@
 1. DESCRIPTION
 -------------------------------------------------------------------------------
 OrbitTools patched sources fork from: http://www.zeptomoby.com/satellites/
+
+Based on version: 2017.06.10
 
 Partially refactored to be used as a C++ library by adding namespaces, std
 types usage and std function calls.
@@ -69,11 +71,14 @@ https://en.wikipedia.org/wiki/MIT_License)
 3. REPOSITORIES
 -------------------------------------------------------------------------------
 Primary:
-  * https://svn.code.sf.net/p/orbittools/orbittools/trunk
+  * https://sf.net/p/orbittools/orbittools/HEAD/tree/trunk
+    https://svn.code.sf.net/p/orbittools/orbittools/trunk
 First mirror:
-  * https://github.com/andry81/orbittools--orbittools.git
+  * https://github.com/andry81/orbittools--orbittools/tree/trunk
+    https://github.com/andry81/orbittools--orbittools.git
 Second mirror:
-  * https://bitbucket.org/andry81/orbittools-orbittools.git
+  * https://bitbucket.org/andry81/orbittools-orbittools/src/trunk
+    https://bitbucket.org/andry81/orbittools-orbittools.git
 
 -------------------------------------------------------------------------------
 4. INSTALLATION
