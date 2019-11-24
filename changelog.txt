@@ -1,3 +1,6 @@
+2019.11.24:
+* changed: readme update
+
 2019.10.07:
 * changed: cmake: switch to last tacklelib library
 
