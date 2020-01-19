@@ -1,0 +1,13 @@
+2020.01.19:
+* changed: cmake update versus latest tacklelib library
+* changed: readme update
+
+2018.10.01:
+* minor cmake change
+
+2018.09.27:
+* fixed: build fix
+* minor fixup and refactor
+
+2018.08.19:
+* new: copy from original (vanilla) version with p1 patches fixing only compilation issues, crashes and serious bugs, without time precision fixes and upgrage with QD support
