@@ -1,3 +1,6 @@
+2020.01.24:
+* changed: cutted off the version reference from the readme file as may change frequently
+
 2019.11.24:
 * changed: readme update
 
@@ -54,5 +57,6 @@
 * fixed: switch back from dd_real to double
 
 2018.07.16:
+* new: the library repository changes at release 1.4.0 (2017.06.10) from http://www.zeptomoby.com/satellites/
 * new: changelog
 * new: initial patched sources fork
