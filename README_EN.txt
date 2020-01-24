@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2020.01.19
+* 2020.01.24
 * orbittools
 
 1. DESCRIPTION
@@ -11,12 +11,8 @@
 -------------------------------------------------------------------------------
 1. DESCRIPTION
 -------------------------------------------------------------------------------
-OrbitTools patched sources fork from: http://www.zeptomoby.com/satellites/
-
-Based on version: 2017.06.10
-
-Partially refactored to be used as a C++ library by adding namespaces, std
-types usage and std function calls.
+OrbitTools patched sources fork from:
+http://www.zeptomoby.com/satellites/
 
 From authors:
 
