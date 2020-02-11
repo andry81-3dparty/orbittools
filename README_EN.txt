@@ -1,12 +1,12 @@
 * README_EN.txt
-* 2020.01.24
+* 2020.02.10
 * orbittools
 
 1. DESCRIPTION
 2. LICENSE
 3. REPOSITORIES
 4. INSTALLATION
-5. AUTHOR EMAIL
+5. AUTHOR
 
 -------------------------------------------------------------------------------
 1. DESCRIPTION
@@ -76,6 +76,6 @@ Second mirror:
 N/A
 
 -------------------------------------------------------------------------------
-5. AUTHOR EMAIL
+5. AUTHOR
 -------------------------------------------------------------------------------
 Andrey Dibrov (andry at inbox dot ru)
