@@ -1,0 +1,13 @@
+repositories:
+
+  _externals/1_4_0_20170422:
+    type:             git
+    url:              https://github.com/andry81-3dparty/orbittools
+    version:          '1_4_0_20170422'
+    fetch-to-branch:  '1_4_0_20170422'
+
+  _externals/1_4_0_20170422-p1:
+    type:             git
+    url:              https://github.com/andry81-3dparty/orbittools
+    version:          1_4_0_20170422-p1
+    fetch-to-branch:  1_4_0_20170422-p1
